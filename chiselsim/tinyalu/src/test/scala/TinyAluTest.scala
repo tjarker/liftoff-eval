@@ -97,10 +97,13 @@ class TinyAluTest extends AnyFreeSpec with Matchers with ChiselSim {
       val driver = new TinyAluDriver(dut, txs)
       val monitor = new TinyAluMonitor(dut, observedTxs)
 
+      var cycles = 1
+
       while (txs.nonEmpty || monitor.waitForResult) {
         driver.step()
         monitor.step()
         dut.clock.step()
+        cycles += 1
       }
 
       val endNanos = System.nanoTime()

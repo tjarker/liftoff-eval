@@ -2,6 +2,7 @@
 .metals/
 .vscode/
 .idea/
+.bsp/
 target/
 project/
 build/
