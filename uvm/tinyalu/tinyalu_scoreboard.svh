@@ -15,8 +15,10 @@ class tinyalu_scoreboard extends uvm_scoreboard;
     tinyalu_tx tx;
     logic [15:0] predicted_result;
     int failed = 0;
+    int count = 0;
     while (item_collected.can_get()) begin
       item_collected.try_get(tx);
+      count++;
       predicted_result = predict(tx);
       if (predicted_result !== tx.result) begin
         failed++;
@@ -25,6 +27,7 @@ class tinyalu_scoreboard extends uvm_scoreboard;
                 tx.A, tx.B, tx.op, predicted_result, tx.result));
       end
     end
+    `uvm_info(get_type_name(), $sformatf("Checked %0d transactions.", count), UVM_LOW);
     if (failed == 0) begin
       `uvm_info(get_type_name(), "All transactions matched expected results.", UVM_LOW);
     end else begin

@@ -10,6 +10,8 @@ class tinyalu_test extends uvm_test;
 
   virtual function void build_phase(uvm_phase phase);
 
+    // set rep parameter for benchmark
+    uvm_config_db#(int)::set(uvm_root::get(), "*", "reps", 1000000);
     set_type_override_by_type(tinyalu_sequence::get_type(), bench_seq::get_type());
 
     super.build_phase(phase);

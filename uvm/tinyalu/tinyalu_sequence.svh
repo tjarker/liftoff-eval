@@ -100,7 +100,11 @@ class bench_seq extends tinyalu_sequence;
   endfunction
 
   virtual task body();
-    for (int i = 0; i < 1000; i++) begin
+    // get reps
+    int reps;
+    if (!uvm_config_db#(int)::get(null, "", "reps", reps))
+      `uvm_fatal("NO_REPS", {"Reps parameter must be set for: ", get_full_name(), ". Reps should be set to the number of times to repeat the benchmark sequences."});
+    for (int i = 0; i < reps; i++) begin
       rand_seq = random_sequence::type_id::create("rand_seq");
       max_seq = max_sequence::type_id::create("max_seq");
       fib_seq = fib_sequence::type_id::create("fib_seq");
